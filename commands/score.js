@@ -29,14 +29,29 @@ return;
 **/
 async function getScore(msg) {
     mention = msg.content.split(" ")[1];
-    if (mention != undefined) {
-        mentioned_user_id = mention.substring(3, mention.length - 1);
+
+    if (mention == undefined || mention.toLowerCase() == "me") {
+        mentioned_user_id = msg.author.id;
         const user = await model.scores.findOne({ where: { user_id: mentioned_user_id } });
         if (user) {
             score = user.get("score");
             return score;
         }
-        return -1;
+        return "You're not " + mention;
     }
+    //console.log(msg);
+    //console.log(mention);
+    if (mention != undefined && mention != ' ' && mention != '') {
+        mentioned_user_id = mention.substring(3, mention.length - 1);
+        const user = await model.scores.findOne({ where: { user_id: mentioned_user_id } });
+        //console.log(user);
+        if (user) {
+            score = user.get("score");
+            return score;
+        }
+        return "No user found for " + mention;
+    }
+
+    return "you gotta give me a mention you dum poo poo head!";
 
 }

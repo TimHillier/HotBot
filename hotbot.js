@@ -36,6 +36,7 @@ const Table = sequelize.define('score', {
 });
 
 
+//client.user.setActivity('eating ass', {type: 'Competing'});
 client.once('ready', () => {
     Table.sync();
     testConnection();

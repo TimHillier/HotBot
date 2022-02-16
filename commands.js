@@ -7,6 +7,11 @@ const leader_board = require("./commands/leaderBoard.js");
 const bottom_place = require("./commands/bottom.js");
 const bully_user = require("./commands/bully.js");
 const opinion_message = require("./commands/opinion.js");
+//const play_voice = require("./commands/play_voice.js");
+const skip_voice = require("./commands/skip_voice.js");
+const queue_voice = require("./commands/queue_voice.js");
+const leave_voice = require("./commands/leave_channel.js");
+
 module.exports = async function (msg) {
 
 // List of Commands. 
@@ -20,7 +25,11 @@ const commands = {
     top: leader_board,
     bottom: bottom_place,
     bully: bully_user,
-    opinion: opinion_message,
+    //sing: play_voice,
+    //queue: queue_voice,
+    //skip: skip_voice,
+    //leave: leave_voice,
+    //opinion: opinion_message,
 }
 
 // Split message into tokens. 

@@ -1,7 +1,4 @@
 // just send a dumb insult to the user. 
-
-
-
 var insults = [
 "You're more disappointing than an unsalted pretzel.",
 "You look like you came froma  donation pile.",
