@@ -1,5 +1,6 @@
 require("dotenv").config();
 const commandHandler = require("./commands");
+const https = require('https');
 const {Client, Intents } = require('discord.js');
 const Sequelize = require('sequelize');
 global.client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]});
@@ -17,6 +18,36 @@ const sequelize = new Sequelize(process.env.DB_NAME.trim(), process.env.DB_USER.
 });
 
 const model = initModels(sequelize);
+
+// Check Damians Stream.
+function checkStream() {
+const token = '9nkxzojanf615rb8m968vt99t0h36g';
+const url = 'https://api.twitch.tv/helix/streams?user_login=threelargeducks';
+var options = {
+    method: 'GET',
+    url: url,
+    headers: {'content-type': 'application/json', 
+              'Authorization': 'Bearer ' + token  },
+    }
+const req = https.request(options, res => {
+    console.log(`statusCode: ${res.statusCode}`);
+
+    res.on('data', d => {
+        console.log(d);
+    });
+});
+
+req.on('error', error => {
+    console.error(error);
+});
+
+req.on('uncaughtException', error => {
+    console.error(error);
+});
+req.end();
+// this works, just need to figure out how to tell if the stream is live or not. 
+//console.log("Here");
+}
 
 // Create Model. 
 // Table:
@@ -41,10 +72,23 @@ client.once('ready', () => {
     Table.sync();
     testConnection();
     console.log('READY!');
+    //client.setInterval(checkStream(), 600000);
+   // setInterval(checkStream, 5000);
 });
 
 // Create In table
 client.on('messageCreate', createScore);
+
+/**
+client.on('messageCreate', async (msg) => {
+    let tokens = msg.content.split(" ");
+    if (tokens[0].toLowerCase() === "we" && tokens[1].toLowerCase() === "should") {
+        msg.reply("Yes, we should! Count me in!!!");
+        return;
+    }
+    return;
+}); 
+**/
 
 // watch for reactions. 
 client.on('messageReactionAdd', (reaction, user) => {
@@ -68,6 +112,7 @@ client.on('messageReactionRemove', (reaction, user) => {
 client.on('messageCreate', commandHandler);
 
 client.login(process.env.BOTTOKEN);
+
 
 async function testConnection () {
     try {

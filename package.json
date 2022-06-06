@@ -15,6 +15,7 @@
     "libsodium-wrappers": "^0.7.9",
     "sequelize": "^6.13.0",
     "sequelize-auto": "^0.8.8",
-    "sqlite3": "^4.2.0"
+    "sqlite3": "^4.2.0",
+    "twitch-js": "^2.0.0-beta.43"
   }
 }
